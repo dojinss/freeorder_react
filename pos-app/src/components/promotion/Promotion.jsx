@@ -24,7 +24,7 @@ const Promotion = ({ proList, promotionDelete }) => {
       </div>
 
       <table className={styles['promotion-list']}>
-        <div>
+        <div className={styles['container']}>
           {proList && proList.length > 0 ? (
             <>
               <thead>

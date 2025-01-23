@@ -23,7 +23,7 @@ const Notice = ({notiInsert}) => {
     notiInsert(formData, headers)
     }
   return (
-    <>
+    <div className={styles['container']}>
     <form className={styles['notice']} id="notice-insert" onSubmit={(e) => e.preventDefault()}>
             <h1>공지사항</h1>
             <div className={styles['notice-title']}>
@@ -48,7 +48,7 @@ const Notice = ({notiInsert}) => {
             </div>
             <button  className={styles['insert-btn']} onClick={noticeInsert}>저장</button>
         </form>
-    </>
+    </div>
   )
 }
 
