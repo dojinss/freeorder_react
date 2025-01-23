@@ -11,7 +11,7 @@ const ProductInsertContainer = () => {
   const [cateList, setCateList] = useState([])
   const [optList, setOptList] = useState([])
   
-  // 카테고리 목록 불러오기
+  // 옵션 목록 불러오기
   const optLoad = async () => {
     try {
       const response = await options.list()

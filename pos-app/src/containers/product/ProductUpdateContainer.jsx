@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProductUpdate from '../../components/product/ProductUpdate';
 import * as products from '../../apis/product';
+import * as options from '../../apis/option'
 import { useParams, useNavigate } from 'react-router-dom';
 
 const ProductUpdateContainer = () => {
@@ -15,6 +16,7 @@ const ProductUpdateContainer = () => {
     productFile: null,
   });
   const [cateList, setCateList] = useState([]); // 카테고리 목록
+  const [optList, setOptList] = useState([])
 
   // 상품 정보 가져오기
   const getProductDetails = async () => {
@@ -25,6 +27,20 @@ const ProductUpdateContainer = () => {
       console.error('상품을 불러오는 데 실패했습니다.', error);
     }
   };
+
+  // 옵션 목록 불러오기
+  const optLoad = async () => {
+    try {
+      const response = await options.list()
+      const data = response.data
+      const status = response.status
+      if (status == 200) {
+        setOptList(data)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   // 카테고리 목록 가져오기
   const getCategories = async () => {
@@ -54,6 +70,7 @@ const ProductUpdateContainer = () => {
   useEffect(() => {
     getProductDetails();
     getCategories();
+    optLoad()
   }, [id]);
 
   // 상품 삭제 처리 함수
@@ -76,6 +93,7 @@ const ProductUpdateContainer = () => {
       setProduct={setProduct}
       handleUpdate={handleUpdate}
       handleDelete={handleDelete}
+      optList={optList}
     />
   );
 };

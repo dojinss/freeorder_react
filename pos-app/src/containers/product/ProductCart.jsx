@@ -35,7 +35,7 @@ const ProductCart = ({ cartList, styles, openModal, totalPrice, removeCart, amou
     <>
       <div className={styles['right-side']}>
         <div className={styles['right-header']}>
-          <button className={styles['settings-btn']} onClick={openModal}>
+          <button className={styles['settings-btn']} onClick={()=>openModal()}>
             ⚙️
           </button>
           <button
