@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Product.module.css';
 
-const ProductUpdate = ({ product, cateList, setProduct, handleUpdate, handleDelete }) => {
+const ProductUpdate = ({ product, cateList, optList, setProduct, handleUpdate, handleDelete }) => {
+
+  const [selectedOptions, setSelectedOptions] = useState(null);
+
   // 파일 선택 시 상태 업데이트
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -21,7 +24,7 @@ const ProductUpdate = ({ product, cateList, setProduct, handleUpdate, handleDele
     formData.append('price', product.price);
     formData.append('description', product.description);
     formData.append('categoriesId', product.categoriesId);
-    formData.append('optionsId', product.optionsId || '');
+    formData.append('optionsId', selectedOptions.id || '');
 
     // 파일 추가
     if (product.productFile) {
@@ -29,15 +32,26 @@ const ProductUpdate = ({ product, cateList, setProduct, handleUpdate, handleDele
     }
 
     const headers = {
-      'Content-Type' : 'multipart/form-data'
+      'Content-Type': 'multipart/form-data'
     };
 
     console.log('폼데이터 : ');
     console.log(formData);
-    
+
     // 수정 처리 함수 호출
     handleUpdate(formData, headers);
   };
+
+  const handleOptionSelect = (option) => {
+    setSelectedOptions(option);
+  };
+
+  useEffect(() => {
+    if (selectedOptions == null) {
+      setSelectedOptions(product?.option)
+    }
+  }, [product])
+  
 
   return (
     <div className={styles['i-container']} layout:fragment="content">
@@ -110,13 +124,32 @@ const ProductUpdate = ({ product, cateList, setProduct, handleUpdate, handleDele
           />
         </div>
 
+        {/* 옵션 리스트 표시 여부 제어 */}
         <div className={styles['form-group']}>
-          <label htmlFor="optionId">옵션</label>
-          <div className={styles['plus-box']}>
-            <a>+선택</a>
+          <div id="optionList">
+            {optList.map((opt) => (
+              <div
+                key={opt.id}
+                className={`${styles['opt-list']} ${selectedOptions?.id === opt.id ? styles.active : ''}`}
+                onClick={() => handleOptionSelect(opt)}
+              >
+                <div className={styles['opt-title']}>{opt.name}</div>
+
+                {/* 옵션 아이템 */}
+                <div className={styles['text-icon']}>
+                  {opt.itemList && opt.itemList.length > 0 ? (
+                    opt.itemList.map((item) => (
+                      <div key={item.id} className={styles['opt-item']}>
+                        <span>{item.name}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <span>옵션 아이템 없음</span>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-          <ul id="optionList"></ul>
-          <input type="hidden" name="optionsId" value={product.optionsId || ''} />
         </div>
 
         <div className={styles['button-group']}>

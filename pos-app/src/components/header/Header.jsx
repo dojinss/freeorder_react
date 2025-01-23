@@ -8,15 +8,24 @@ import { LoginContext } from '../../contexts/LoginContextProvider'
 
 const Header = () => {
 
-  
+
+  const {isLogin} = useContext(LoginContext)
 
   const { systemStatus, serverGet } = useContext(StatusContext)
   const navigator = useNavigate()
+
+  if (!isLogin) {
+    navigator('/login')
+  }
 
   // 홈으로
   const onClickGoHome = () => {
     navigator(`/`)
   }
+
+
+
+  
 
   // 영업 시작 / 종료
   const onClickSystemChange = async (sysStatus) => {

@@ -6,16 +6,16 @@ import { useContext } from 'react';
 import { LoginContext } from '../../contexts/LoginContextProvider';
 import ProductCart from '../../containers/product/ProductCart';
 import * as Swal from '../../apis/alert'
+import ProductOptions from './ProductOptions';
 
 const ProductList = ({ cateList, proList, onCategoryChange }) => {
   const [ModalOpen, setModalOpen] = useState(false);
   const [optModalOpen, setOptModalOpen] = useState(false); // 옵션 선택 모달 열기
   const [selectedProduct, setSelectedProduct] = useState(null); // 선택된 상품
-  const [selectedOption, setSelectedOption] = useState([]); // 선택된 옵션
   const [option, setOption] = useState(null);  // 선택한 상품의 옵션
   const [totalPrice, setTotalPrice] = useState(0); // 총 가격
   const [cartList, setCartList] = useState([])    // 장바구니 목록
-  const [optionList, setOptionsList] = useState([])
+
 
 
   const { isLogin, userInfo } = useContext(LoginContext)
@@ -28,6 +28,7 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
       const response = await options.read(selectedProduct.optionsId)
       const data = response.data;
       const status = response.status;
+      // console.dir(data)
       if (status === 200) {
         setOption(data);  // 옵션 리스트 상태 업데이트
       }
@@ -35,6 +36,8 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
       console.error('옵션 불러오기 오류:', error);
     }
   };
+
+  
 
   // 옵션 목록을 한 번만 불러오기
   useEffect(() => {
@@ -53,12 +56,9 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
 
   // 아이템 옵션 열기 함수
   const openOptSelect = (product) => {
-    console.dir(product)
     if (product.optionsId != null) {
       setSelectedProduct(product);  // 선택된 상품 설정
-      setSelectedOption(product.option);  // 기존 선택된 옵션 초기화
       setOptModalOpen(true);  // 옵션 모달 열기
-      setOptionsList(product.option.itemList)
     } else {
       const newProduct = {
         id: product.id,
@@ -66,7 +66,6 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
       }
       addCart(newProduct)
     }
-
   }
 
   // 아이템 옵션 닫기 함수
@@ -74,38 +73,9 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
     setOptModalOpen(false);  // 옵션 모달 닫기
   };
 
-
-
-  // 체크박스 상태 변경 처리
-  const handleOptionSelect = (id) => {
-    setOptionsList((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, checked: !item.checked } : item
-      )
-    )
-    console.dir(optionList)
-  }
-
-  // 옵션 선택 완료 후 결제창으로 상품 추가
-  const handleOptionConfirm = async () => {
-    console.log(`장바구니에 추가`)
-    const product = {
-      id: selectedProduct.id,
-      quantity: 1,
-      option: {
-        id: selectedProduct.optionsId,
-        itemList: optionList
-      }
-    }
-    addCart(product)
-
-
-    // 옵션 선택 모달 닫기
-    closeOptSelect();
-  };
   const addCart = async (product) => {
-    console.log(`장바구니 정보`)
-    console.dir(product)
+    // console.log(`장바구니 정보`)
+    // console.dir(product)
     // 장바구니에 추가
     const response = await carts.insert(product, usersId)
     const data = response.data
@@ -176,7 +146,6 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
       cartsLoad()
     }
   }, [totalPrice, isLogin])
-
 
   return (
     <div className={styles.container}>
@@ -271,121 +240,63 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
       </div>
 
       {/* 세팅 모달 */}
-      {ModalOpen && (
-        <div className={ModalOpen ? `${styles.show} ${styles['modal']}` : ``}>
-          <div
-            className={styles['modal-container']}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className={styles['modal-header']}>
-              <h5>상품 설정</h5>
-              <span className={styles['close-btn']} onClick={closeModal}>
-                &times;
-              </span>
-            </div>
+      {/*  */}
+      <div className={ModalOpen ? `${styles.show} ${styles['modal']}` : ``}>
+        <div
+          className={styles['modal-container']}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className={styles['modal-header']}>
+            <h5>상품 설정</h5>
+            <span className={styles['close-btn']} onClick={closeModal}>
+              &times;
+            </span>
+          </div>
 
-            <div className={styles['modal-section']}>
-              <h3 className={styles['section-title']}>상품</h3>
-              <div className={styles['card-container']}>
-                <a href="/products/insert" className={styles['card']}>
-                  <img src="/img/상품 정보 수정.png" alt="상품 등록" />
-                  <h4>상품 등록</h4>
-                </a>
-                <a href="/products/updateList" className={styles['card']}>
-                  <img src="/img/상품 정보 수정.png" alt="상품 정보 수정" />
-                  <h4>상품 정보 수정</h4>
-                </a>
-                <a href="/products/locate" className={styles['card']}>
-                  <img src="/img/상품 배치 수정.png" alt="상품 배치 수정" />
-                  <h4>상품 배치 수정</h4>
-                </a>
-              </div>
+          <div className={styles['modal-section']}>
+            <h3 className={styles['section-title']}>상품</h3>
+            <div className={styles['card-container']}>
+              <a href="/products/insert" className={styles['card']}>
+                <img src="/img/상품 정보 수정.png" alt="상품 등록" />
+                <h4>상품 등록</h4>
+              </a>
+              <a href="/products/updateList" className={styles['card']}>
+                <img src="/img/상품 정보 수정.png" alt="상품 정보 수정" />
+                <h4>상품 정보 수정</h4>
+              </a>
+              <a href="/products/locate" className={styles['card']}>
+                <img src="/img/상품 배치 수정.png" alt="상품 배치 수정" />
+                <h4>상품 배치 수정</h4>
+              </a>
             </div>
+          </div>
 
-            <div className={styles['modal-section']}>
-              <h3 className={styles['section-title']}>카테고리</h3>
-              <div className={styles['card-container']}>
-                <a href="/categories" className={styles['card']}>
-                  <img src="/img/카테고리 정보수정.png" alt="카테고리 정보 수정" />
-                  <h4>카테고리 정보 수정</h4>
-                </a>
-                <a href="/categories/seqList" className={styles['card']}>
-                  <img src="/img/카테고리 순서변경.png" alt="카테고리 순서 변경" />
-                  <h4>카테고리 순서 변경</h4>
-                </a>
-              </div>
+          <div className={styles['modal-section']}>
+            <h3 className={styles['section-title']}>카테고리</h3>
+            <div className={styles['card-container']}>
+              <a href="/categories" className={styles['card']}>
+                <img src="/img/카테고리 정보수정.png" alt="카테고리 정보 수정" />
+                <h4>카테고리 정보 수정</h4>
+              </a>
+              <a href="/categories/seqList" className={styles['card']}>
+                <img src="/img/카테고리 순서변경.png" alt="카테고리 순서 변경" />
+                <h4>카테고리 순서 변경</h4>
+              </a>
             </div>
           </div>
         </div>
-      )}
+      </div>
 
       {/* 옵션 아이템 선택 모달 */}
       {optModalOpen && selectedProduct && (
-        <div
-          className={optModalOpen ? `${styles.show} ${styles.modal}` : ``}
-        >
-          <div
-            className={styles['modal-container']}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className={styles['so-container']}>
-              <div className={styles['so-option-title']}>
-                <h5>옵션 선택</h5>
-                <span
-                  className="darkgray material-symbols-outlined"
-                  onClick={closeOptSelect}
-                >
-                  close
-                </span>
-              </div>
-
-              <div className={styles['so-option-select']}>
-
-                {
-                  option != null ? (
-
-                    <div key={option.id} className={styles['so-option-card']}>
-                      <div className={styles['opt-items']}>
-                        {option.itemList && option.itemList.length > 0 ? (
-                          option.itemList.map((item) => (
-                            <label
-                              key={item.id}
-                              className={styles['opt-item']}
-                              htmlFor={item.id}
-                            >
-                              <input
-                                type="checkbox"
-                                defaultChecked={selectedOption?.id === item.id}
-                                onChange={(e) => handleOptionSelect(item.id)}
-                                id={item.id}
-                              />
-                              <span>{item.name}</span>
-                              <div className={styles['item-price']}>
-                                {item.price.toLocaleString()}원
-                              </div>
-                            </label>
-                          ))
-                        ) : (
-                          <p>아이템이 없습니다.</p>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <p>옵션이 없습니다.</p>
-                  )}
-              </div>
-
-              <div className={styles['option-btns']}>
-                <button
-                  className={styles['select-btn']}
-                  onClick={handleOptionConfirm}
-                >
-                  옵션 선택 완료
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ProductOptions
+          option={option}
+          styles={styles}
+          addCart={addCart}
+          optModalOpen={optModalOpen}
+          closeOptSelect={closeOptSelect}
+          selectedProduct={selectedProduct}
+        />
       )}
     </div>
   );

@@ -45,7 +45,6 @@ const ProductContainer = () => {
       const response = await products.list()
       const data = response.data
       const status = response.status
-      console.dir(data)
   
       if (status === 200 && data.length > 0) {
         setProList(data)
