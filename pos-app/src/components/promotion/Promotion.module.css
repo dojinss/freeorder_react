@@ -1,0 +1,166 @@
+/* 프로모션 등록 promotion_insert.html */
+.container{
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-align: center;
+}
+
+.promotion-register-page,
+.promotion-edit-page {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: #F9F9F9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+}
+
+.promotion-insert-page h1,
+.promotion-edit-page h1,
+.promotion-page h1 {
+    font-size: 1.8rem;
+    color: #333333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.promotion-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 60%;
+}
+
+.promotion-form label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.promotion-form input[type="text"],
+.promotion-form textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.promotion-form input[type="text"]:focus,
+.promotion-form textarea:focus {
+    border: 1px solid var(--main-color);
+    outline: none;
+}
+
+.promotion-ud-btn{
+    margin-left: auto;
+}
+
+.promotion-form .promotion-update-btn {
+    background-color: var(--main-color);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.promotion-form .promotion-insert-btn{
+    background-color: var(--main-color);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.promotion-form .promotion-insert-btn:hover {
+    background-color: var(--main-color);
+}
+
+.promotion-form .promotion-delete-btn{
+    background-color: white;
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 1px solid red;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* 프로모션 목록 */
+.promotion-list{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.promotion-list th, .promotion-list td{
+    padding: 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+.promotion-list td:nth-of-type(2){text-align: left;}
+.promotion-list th{
+    background-color: #4880FF;
+}
+
+.insert-btn {
+    padding: 1% 3%;
+    background-color: #4880FF;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 10px;
+    text-decoration: none; 
+    float: right;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.insert-btn:hover {
+    filter: brightness(90%);
+    text-decoration: none;
+}
+
+td button {
+    margin-right: 5px; 
+    padding: 5px 10px; 
+    background-color: #4CAF50; 
+    color: white;
+    border: none; 
+    border-radius: 3px; 
+    cursor: pointer;
+}
+
+td button:last-child {
+    background-color: #f44336; 
+}
+
+.update-btn {
+padding: 5px 10px;
+background-color: #90EE90;
+color: white;
+border: none;
+border-radius: 3px;
+cursor: pointer;
+}
+
+.update-btn:hover {
+    filter: brightness(90%);
+}
+
+
