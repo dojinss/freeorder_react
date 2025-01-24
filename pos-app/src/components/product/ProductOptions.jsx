@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const ProductOptions = ({ optModalOpen, option, styles, closeOptSelect, selectedProduct, addCart }) => {
 
@@ -30,10 +30,16 @@ const ProductOptions = ({ optModalOpen, option, styles, closeOptSelect, selected
     // 옵션 선택 모달 닫기
     closeOptSelect();
   };
+  useEffect(() => {
+    if (option != null) {
+      setOptionsList(option.itemList)
+    }
+  }, [option])
+  
   return (
     <div className={optModalOpen ? `${styles.show} ${styles.modal}` : ``}>
       <div
-        className={styles['modal-container']}
+        className={styles['modal-container-opt']}
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles['so-container']}>

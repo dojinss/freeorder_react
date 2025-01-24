@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import * as carts from '../../apis/cart'; // options API 호출
-import * as options from '../../apis/option'; // options API 호출
-import styles from './Product.module.css';
-import { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import * as Swal from '../../apis/alert';
+import * as carts from '../../apis/cart';
+import * as options from '../../apis/option';
+import * as payments from '../../apis/payment';
+
 import { LoginContext } from '../../contexts/LoginContextProvider';
-import ProductCart from '../../containers/product/ProductCart';
-import * as Swal from '../../apis/alert'
+import styles from './Product.module.css';
 import ProductOptions from './ProductOptions';
+import ProductCart from './ProductCart';
 
 const ProductList = ({ cateList, proList, onCategoryChange }) => {
   const [ModalOpen, setModalOpen] = useState(false);
@@ -37,7 +38,7 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
     }
   };
 
-  
+
 
   // 옵션 목록을 한 번만 불러오기
   useEffect(() => {
@@ -73,6 +74,7 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
     setOptModalOpen(false);  // 옵션 모달 닫기
   };
 
+  // 장바구니에 상품 추가
   const addCart = async (product) => {
     // console.log(`장바구니 정보`)
     // console.dir(product)
@@ -98,16 +100,30 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
       calcPrice(data)
     }
   }
-  // 장바구니 하나 삭제
+
+  // 장바구니 삭제
   const removeCart = async (CartsId) => {
     const response = await carts.remove(CartsId)
     const data = response.data
     const status = response.status
     if (status == 200) {
-      Swal.alert(`상품이 삭제되었습니다.`, `상품 삭제 완료`, "success")
+      Swal.alert(`장바구니 상품이 삭제되었습니다.`, `상품 삭제 완료`, "success")
       cartsLoad()
     }
   }
+
+  // 장바구니 비우기
+  const allRemoveCart = async () => {
+    const response = await carts.allRemove(usersId)
+    const data = response.data
+    const status = response.status
+    if (status == 200) {
+      Swal.alert(`장바구니가 비었습니다.`, `전체 삭제 완료`, "success")
+      cartsLoad()
+    }
+  }
+
+  // 총 가격 계산하기
   const calcPrice = (data) => {
     // 총 가격 업데이트
     let total = 0
@@ -141,6 +157,17 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
       cartsLoad()
     }
   }
+
+  // 결제하기
+  const paymentCart = async (type) => {
+    const response = await payments.toPaid(usersId)
+    const data = response.data
+    const status = response.status
+    if (status == 200) {
+      Swal.alert(`결제가 완료 되었습니다.`,`${type} 결제 완료`,'success')
+    }
+  }
+
   useEffect(() => {
     if (isLogin) {
       cartsLoad()
@@ -236,6 +263,7 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
           removeCart={removeCart}
           amountIncrement={amountIncrement}
           amountDecrement={amountDecrement}
+          allRemoveCart={allRemoveCart}
         />
       </div>
 

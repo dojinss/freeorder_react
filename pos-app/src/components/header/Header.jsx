@@ -1,22 +1,14 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { StatusContext } from '../../contexts/StatusContextProvider'
-import '../header/Header.css'
 import * as servers from '../../apis/server'
+import { StatusContext } from '../../contexts/StatusContextProvider'
 import * as format from '../../utils/format'
-import { LoginContext } from '../../contexts/LoginContextProvider'
+import '../header/Header.css'
 
 const Header = () => {
 
-
-  const {isLogin} = useContext(LoginContext)
-
   const { systemStatus, serverGet } = useContext(StatusContext)
   const navigator = useNavigate()
-
-  if (!isLogin) {
-    navigator('/login')
-  }
 
   // 홈으로
   const onClickGoHome = () => {

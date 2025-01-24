@@ -94,16 +94,14 @@ public class PaymentController {
         }
     }
 
-    @PostMapping()
-    public ResponseEntity<?> create(Authentication authentication,
+    @PostMapping("/{id}")
+    public ResponseEntity<?> create(
+            @PathVariable("id") String usersId,
             @RequestBody Payment payment,
             @CookieValue(value = "orderType", defaultValue = "") String orderType) {
         log.info("결제내역 등록");
         log.info("결제 정보 : " + payment.getPaymentMethod());
-        CustomUser customUser = (CustomUser) authentication.getPrincipal();
-        Users user = customUser.getUser();
         try {
-            String usersId = user.getId();
             // 장바구니 정보 불러오기
             List<Cart> cartList = cartService.listByUser(usersId);
             int total = 0;
@@ -120,7 +118,7 @@ public class PaymentController {
                     .status("COMPLETE")
                     .build();
             List<OrderItem> itemList = new ArrayList<>();
-
+            
             for (Cart cart : cartList) {
                 List<CartOption> optionList = cart.getOptionList();
                 total += cart.getPrice() * cart.getAmount();
@@ -171,8 +169,10 @@ public class PaymentController {
             order.setTotalPrice(total);
             order.setType("HERE");
             log.info("order: " + order);
+            // 주문등록
             orderService.insert(order);
 
+            // 결제 정보 세팅
             Payment insertPayment = Payment.builder()
                     .id(UUID.randomUUID().toString())
                     .ordersId(ordersId)
@@ -180,9 +180,10 @@ public class PaymentController {
                     .paymentKey(UUID.randomUUID().toString())
                     .status("PAID")
                     .build();
+            // 결제내역 등록
             int result = paymentService.insert(insertPayment);
             if (result > 0) {
-                cartService.allDeleteByUserId(usersId);
+                cartService.allDeleteByUserId(usersId); // 장바구니 비우기
                 return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
             } else {
                 log.info("결제내역 DB에 등록 중 에러...");

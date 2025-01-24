@@ -103,15 +103,17 @@ const PaymentList = ({ payList, payLoad, paymentRead, payment }) => {
             }
             {
               payList == null ??
-              <li>
-                <span>결제 내역이 없습니다.</span>
-              </li>
+              (
+                <li>
+                  <span>결제 내역이 없습니다.</span>
+                </li>
+              )
             }
           </ul>
 
         </div>
         <div className={styles['ls-right-container']} id="right-payment-info">
-          <PaymentRead 
+          <PaymentRead
             payment={payment}
             styles={styles}
           />

@@ -9,17 +9,21 @@ import * as auth from '../apis/auth'
 // 컨텍스트 생성
 export const LoginContext = createContext()
 
-const LoginContextProvider = ({children}) => {
+const LoginContextProvider = ({ children }) => {
 
   // 로그인 여부
   const [isLogin, setIsLogin] = useState(false)
   // 사용자 정보
   const [userInfo, setUserInfo] = useState(null)
   // 권한 정보
-  const [roles, setRoles] = useState({isUser : false, isAdmin : false})
+  const [roles, setRoles] = useState({ isUser: false, isAdmin: false })
 
   // 페이지 이동
   const navigate = useNavigate()
+
+  if (!isLogin) {
+    navigate('/login')
+  }
 
   // 로그인 함수
   const login = async (username, password) => {
@@ -29,7 +33,7 @@ const LoginContextProvider = ({children}) => {
     try {
 
       const response = await auth.login(username, password)
-      const data = response.data      
+      const data = response.data
       const status = response.status
       const headers = response.headers
       const authorization = headers.authorization
@@ -43,10 +47,10 @@ const LoginContextProvider = ({children}) => {
       console.log(`jwt : ${jwt}`)
 
       // 로그인 성공
-      if(status == 200){
+      if (status == 200) {
 
         // JWT 를 쿠키에 등록
-        Cookies.set("jwt", jwt, {expires : 5}) // 5일 후 만료
+        Cookies.set("jwt", jwt, { expires: 5 }) // 5일 후 만료
         console.log(1)
         // 로그인 세팅 - loginSetting
         loginSetting(authorization, data)
@@ -73,9 +77,9 @@ const LoginContextProvider = ({children}) => {
   const autoLogin = async () => {
     // 쿠키에서 jwt 가져오기
     const jwt = Cookies.get("jwt")
-    
+
     // jwt 가 쿠키에 없을 때
-    if( !jwt ) {
+    if (!jwt) {
       // TODO : 로그아웃 세팅
       return
     }
@@ -99,7 +103,7 @@ const LoginContextProvider = ({children}) => {
       return
     }
 
-    if(response.data == 'UNAUTHORIZED' || response.status == 401){
+    if (response.data == 'UNAUTHORIZED' || response.status == 401) {
       console.error(`jwt 가 만료되었거나 인증에 실패하였습니다.`)
       return
     }
@@ -130,10 +134,10 @@ const LoginContextProvider = ({children}) => {
     setUserInfo(data)
 
     // 권한 정보
-    const  updatedRoles = {isUser:false, isAdmin: false}
+    const updatedRoles = { isUser: false, isAdmin: false }
     data.authList.forEach((obj) => {
-      if(obj.auth == 'ROLE_USER') updatedRoles.isUser = true
-      if(obj.auth == 'ROLE_ADMIN') updatedRoles.isAdmin = true
+      if (obj.auth == 'ROLE_USER') updatedRoles.isUser = true
+      if (obj.auth == 'ROLE_ADMIN') updatedRoles.isAdmin = true
     })
     setRoles(updatedRoles)
   }
@@ -149,8 +153,8 @@ const LoginContextProvider = ({children}) => {
 
   return (
     // 컨텍스트 값 지정 -> value{?, ?}
-    <LoginContext.Provider value={{isLogin, logout, login, userInfo, roles}}>
-        {children}
+    <LoginContext.Provider value={{ isLogin, logout, login, userInfo, roles }}>
+      {children}
     </LoginContext.Provider>
   )
 }
