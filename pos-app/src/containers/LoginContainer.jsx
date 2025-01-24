@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
-import '../login.css'
-import * as auth from '../apis/auth'
 import { LoginContext } from '../contexts/LoginContextProvider'
+import styles from '../login.module.css'
 const LoginContainer = () => {
 
   const {login} = useContext(LoginContext)
@@ -22,21 +21,21 @@ const LoginContainer = () => {
     login(username, password)
   }
   return (
-    <div className="container" id='login-page'>
-      <div className="content-wrap">
-        <div className="logo">
+    <div className={styles['container']}>
+      <div className={styles['content-wrap']}>
+        <div className={styles['logo']}>
           <img src="/img/qrHall.png" alt="이미지" width="100px" />
         </div>
-        <form onSubmit={onLogin}>
-          <div className="form-floating">
+        <form onSubmit={onLogin} className={styles['login-form']}>
+          <div className={styles['form-floating']}>
             <label htmlFor="username">아이디</label>
-            <input type="text" className="form-control" id="username" name="id" onChange={changeUsername} defaultValue={username} placeholder="아이디" autoFocus />
+            <input type="text" className={styles['form-control']} name="id" onChange={changeUsername} defaultValue={username} placeholder="아이디" autoFocus />
           </div>
-          <div className="form-floating">
+          <div className={styles['form-floating']}>
             <label htmlFor="password">비밀번호</label>
-            <input type="password" className="form-control" id="password" name="pw" onChange={changePassword} defaultValue={password} placeholder="비밀번호" />
+            <input type="current-password" className={styles['form-control']} id="password" name="pw" onChange={changePassword} defaultValue={password} placeholder="비밀번호" />
           </div>
-          <button className="login-btn" type="submit">로그인</button>
+          <button className={styles['login-btn']} type="submit">로그인</button>
         </form>
       </div>
     </div>
