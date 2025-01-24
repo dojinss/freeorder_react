@@ -4,12 +4,16 @@ import { useNavigate } from 'react-router-dom'
 import * as payments from '../../apis/payment'
 import { LoginContext } from '../../contexts/LoginContextProvider'
 import './css/payments.css'
+import SockJS from "sockjs-client";
+import { Stomp } from "@stomp/stompjs";
 
 const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm"
 const customerKey = ANONYMOUS
 
 const PaymentPaid = () => {
 
+  const socket = new SockJS("http://localhost:8080/ws");
+  const stompClient = Stomp.over(socket);
 
   const [paymentWidget, setPaymentWidget] = useState(null)
 
@@ -66,9 +70,9 @@ const PaymentPaid = () => {
     (async () => {
       const paymentWidget = await loadPaymentWidget(clientKey, customerKey)
 
-      console.log(`paymentWidget`)
-      console.log(paymentWidget)
-      console.dir(paymentWidget)
+      // console.log(`paymentWidget`)
+      // console.log(paymentWidget)
+      // console.dir(paymentWidget)
 
       paymentWidget.renderPaymentMethods("#payment-widget", price)
 
@@ -76,12 +80,45 @@ const PaymentPaid = () => {
     })()
   }, [price])
 
+
+  // 주문 전송
+  function sendMessage() {
+    console.log("주문 전송 : " + ordersId)
+    let data = {
+      id: ordersId
+    }
+    if (stompClient) {
+      stompClient.send("/app/order.addorder/" + ordersId, {}, JSON.stringify(data));
+    }
+  }
+
+  // 웹소켓
+  useEffect(() => {
+    // 2. WebSocket 연결 설정
+    const setupWebSocket = () => {
+
+      stompClient.connect({}, () => {
+        console.log("WebSocket Connected");
+      });
+
+      // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
+      return () => {
+        stompClient.disconnect(() => {
+          console.log("WebSocket Disconnected");
+        });
+      };
+    };
+    return () => {
+      setupWebSocket();
+    };
+  }, []);
+
   return (
     <>
       <div id="payment-widget" />
       <div className="payment-btn-box">
         {/* <!-- 결제하기 버튼 --> */}
-        <button className="button" id="payment-button" onClick={goPayments}>결제하기</button>
+        <button className="button" id="payment-button" onClick={sendMessage}>결제하기</button>
         {/* <!-- 결제 취소 버튼 --> */}
         <button className="button" id="cart-button" onClick={cancelPayments}>결제취소</button>
       </div>

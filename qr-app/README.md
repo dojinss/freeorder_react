@@ -21,7 +21,7 @@ npm i sweetalert2 sweetalert2-react-content
 npm install sockjs-client
 
 # stompjs
-npm install stompjs
+npm install @stomp/stompjs ws
 
 # plugin-inject
 npm install @rollup/plugin-inject --save-dev
@@ -30,7 +30,7 @@ npm install @rollup/plugin-inject --save-dev
 npm i global
 
 # one
-npm install react-router-dom axios js-cookie sweetalert2 sweetalert2-react-content sockjs-client stompjs @rollup/plugin-inject --save-dev global
+npm install react-router-dom axios js-cookie sweetalert2 sweetalert2-react-content sockjs-client @rollup/plugin-inject --save-dev global @stomp/stompjs ws
 
 ## 클래스변환 정규 표현식
 

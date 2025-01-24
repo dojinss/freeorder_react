@@ -18,12 +18,13 @@ export default defineConfig({
         secure: false,                    // https 지원 여부
         rewrite: (path) => path.replace(/^\/api/, '')
       },
-      '/wsapi': {
-        target: 'ws://localhost:8080',   // WebSocket 서버 주소
-        changeOrigin: true,               // WebSocket 요청의 Origin을 변경
+      '/ws' : {
+        target: 'http://localhost:8080',  // (port) 서버 주소
+        changeOrigin: true,               // 요청헤더의 Host도 변경
         ws: true,                         // WebSocket을 위한 프록시 설정
-        rewrite: (path) => path.replace(/^\/wsapi/, '')
-      }
-    }
-  }
+        secure: false,                    // https 지원 여부
+      },
+    },
+  },
+  // logLevel: 'info'
 })
