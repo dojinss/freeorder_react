@@ -79,7 +79,7 @@ const OptionInsert = ({ optionInsert }) => {
                     </div>
                     <div id="opt-item-list">
                         {optionItems.map((item, index) => (
-                            <div key={item.id} className="opt-item">
+                            <div key={item.id} className={styles['opt-item']}>
                                 <input
                                     type="text"
                                     value={item.name}
@@ -100,7 +100,7 @@ const OptionInsert = ({ optionInsert }) => {
                                 />
                                 <button
                                     type="button"
-                                    className="remove-btn"
+                                    className={styles['remove-btn']}
                                     onClick={() => removeOptionItem(index)} // 항목 삭제 시 호출
                                 >
                                     삭제
