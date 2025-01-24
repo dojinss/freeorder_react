@@ -67,6 +67,10 @@
     font-weight: bold;
 }
 
+/* .tab-menu li:hover{
+    cursor: pointer;
+} */
+
 .tab-menu-item {
     display: flex;
     justify-content: center;

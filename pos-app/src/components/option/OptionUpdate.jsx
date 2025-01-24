@@ -113,7 +113,7 @@ const OptionUpdate = ({ option, optionUpdate, optionDelete }) => {
                             className={styles['plus-box']}
                             onClick={addOptionItem}  // 옵션 항목 추가 시 호출
                         >
-                            <i className="material-symbols-outlined">add_circle</i>
+                            <i className='material-symbols-outlined'>add_circle</i>
                             <span>옵션 추가</span>
                         </button>
                     </div>
@@ -121,7 +121,7 @@ const OptionUpdate = ({ option, optionUpdate, optionDelete }) => {
                     {/* 옵션 아이템 리스트 */}
                     <div id="opt-item-list">
                         {optionItems?.map((item, index) => (
-                            <div key={item.id} className="opt-item">
+                            <div key={item.id} className={styles['opt-item']}>
                                 <input
                                     type="text"
                                     value={item.name}
@@ -142,7 +142,7 @@ const OptionUpdate = ({ option, optionUpdate, optionDelete }) => {
                                 />
                                 <button
                                     type="button"
-                                    className="remove-btn"
+                                    className={styles['remove-btn']}
                                     onClick={() => removeOptionItem(index)}  // 항목 삭제 시 호출
                                 >
                                     삭제
