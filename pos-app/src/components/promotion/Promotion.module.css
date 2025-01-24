@@ -107,12 +107,18 @@
     border-collapse: collapse;
     margin-bottom: 20px;
     margin-top: 10px;
+    margin: 0 auto;
 }
 .promotion-list th, .promotion-list td{
     padding: 15px;
     border: 1px solid #ddd;
     text-align: center;
 }
+
+.promotion-list th{
+    color: white;
+}
+
 .promotion-list td:nth-of-type(2){text-align: left;}
 .promotion-list th{
     background-color: #4880FF;
@@ -134,6 +140,11 @@
 .insert-btn:hover {
     filter: brightness(90%);
     text-decoration: none;
+}
+
+.promotion-container{
+    padding: 30px;
+    background-color: white;
 }
 
 td button {
