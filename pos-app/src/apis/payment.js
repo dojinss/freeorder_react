@@ -5,13 +5,10 @@ import api from "./api"
 export const list = (serachOptions)=> api.get(`/pos/payments`,serachOptions)
 
 // 결제하기
-export const toPaid = (usersId, orderType) => api.get(`/payments/${usersId}/${orderType}`)
+export const toPaid = (usersId) => api.post(`/pos/payments/${usersId}`)
 
 // 조회
 export const select = (id) => api.get(`/pos/payments/${id}`)
-
-// 등록
-export const confirm = (payment) => api.post("/payments/confirm", payment)
 
 // 수정
 export const update = (formData, headers) => api.put("/pos/payments", formData, headers)

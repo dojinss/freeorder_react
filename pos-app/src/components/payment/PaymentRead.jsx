@@ -15,7 +15,7 @@ const PaymentRead = ({ payment, styles }) => {
             ''
         }
         {
-          payment.status == 'CANCELD' ?
+          payment.status == 'REFUND' ?
             <h3>환불</h3>
             :
             ''
@@ -33,16 +33,16 @@ const PaymentRead = ({ payment, styles }) => {
         payment.status == 'PAID' ?
           <div className={styles['ls-cancel-price']}>
             <h4>환불 가능 금액</h4>
-            <h4>52,000원</h4>
+            <h4>{payment.order.totalPrice.toLocaleString()}</h4>
           </div>
           :
           ''
       }
       {
-        payment.status == 'CANCELD' ?
+        payment.status == 'REFUND' ?
           <div className={styles['ls-cancel-total']}>
             <h4>환불된 금액</h4>
-            <h4>0원</h4>
+            <h4>{payment.order.totalPrice.toLocaleString()}</h4>
           </div>
           :
           ''
@@ -55,7 +55,7 @@ const PaymentRead = ({ payment, styles }) => {
             ''
         }
         {
-          payment.status == 'CANCELD' ?
+          payment.status == 'REFUND' ?
             <button type="button" className={styles['ls-delete-btn']} id="del-order-btn">삭제</button>
             :
             ''

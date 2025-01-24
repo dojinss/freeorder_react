@@ -226,11 +226,8 @@ public class CartController {
         }
     }
 
-    @DeleteMapping("/deleteAll")
-    public ResponseEntity<?> destroyAll(Authentication authentication) {
-        CustomUser customUser = (CustomUser) authentication.getPrincipal();
-        Users user = customUser.getUser();
-        String usersId = user.getId();
+    @DeleteMapping("/all/{id}")
+    public ResponseEntity<?> destroyAll(@PathVariable("id") String usersId) {
         log.info("장바구니 목록 전체 삭제");
         try {
             int result = cartService.allDeleteByUserId(usersId);

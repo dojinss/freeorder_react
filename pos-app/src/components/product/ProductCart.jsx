@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as Swal from '../../apis/alert';
 
-const ProductCart = ({ cartList, styles, openModal, totalPrice, removeCart, amountDecrement, amountIncrement }) => {
+const ProductCart = ({ cartList, styles, openModal, totalPrice, removeCart, amountDecrement, amountIncrement, allRemoveCart }) => {
 
   const [newCartList, setNewCartList] = useState(cartList ?? [])
 
@@ -23,6 +23,11 @@ const ProductCart = ({ cartList, styles, openModal, totalPrice, removeCart, amou
     amountDecrement(id)
   };
 
+  // 전체 삭제 핸들러
+  const handleAllDelete = () => {
+    Swal.confirm(`장바구니를 비우시겠습니까?`,`모든 항목이 삭제됩니다.`,`warning`,allRemoveCart)
+  }
+
   useEffect(()=>{
     setNewCartList(cartList)
   },[cartList])
@@ -40,7 +45,7 @@ const ProductCart = ({ cartList, styles, openModal, totalPrice, removeCart, amou
           </button>
           <button
             className={styles['delete-all-btn']}
-            onClick={() => console.log('Cart cleared')}
+            onClick={() => handleAllDelete()}
           >
             전체 삭제
           </button>

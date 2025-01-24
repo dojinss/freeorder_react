@@ -16,8 +16,24 @@ npm i js-cookie --save
 # sweetalert2
 npm i sweetalert2 sweetalert2-react-content
 
-# one click
-npm install react-router-dom axios js-cookie sweetalert2 sweetalert2-react-content
+# sockjs-client
+## ! sockjs 는 서버용 프론트인 react에서는 sockjs-client 사용
+npm install sockjs-client
 
-# toss API
-npm install @tosspayments/tosspayments-sdk
+# stompjs
+npm install stompjs
+
+# plugin-inject
+npm install @rollup/plugin-inject --save-dev
+
+# global
+npm i global
+
+# one
+npm install react-router-dom axios js-cookie sweetalert2 sweetalert2-react-content sockjs-client stompjs @rollup/plugin-inject --save-dev global
+
+## 클래스변환 정규 표현식
+
+class="([^"]+)"
+->
+className={styles['$1']}
