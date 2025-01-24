@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as Swal from '../apis/alert'
 import api from '../apis/api'
@@ -17,13 +17,10 @@ const LoginContextProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null)
   // 권한 정보
   const [roles, setRoles] = useState({ isUser: false, isAdmin: false })
-
+  // 로그인 페이지 이동 확인
+  const loginRef = useRef(false)
   // 페이지 이동
   const navigate = useNavigate()
-
-  if (!isLogin) {
-    navigate('/login')
-  }
 
   // 로그인 함수
   const login = async (username, password) => {
@@ -70,6 +67,7 @@ const LoginContextProvider = ({ children }) => {
 
   // 로그아웃 함수
   const logout = () => {
+    Cookies.remove("jwt")
     setIsLogin(false)
   }
 
@@ -80,7 +78,7 @@ const LoginContextProvider = ({ children }) => {
 
     // jwt 가 쿠키에 없을 때
     if (!jwt) {
-      // TODO : 로그아웃 세팅
+      logout()
       return
     }
 
@@ -150,6 +148,16 @@ const LoginContextProvider = ({ children }) => {
     autoLogin()
   }, [])
 
+  useEffect(()=>{
+
+    return()=>{
+      if (loginRef) return
+      loginRef = true
+      if (!isLogin) {
+        navigate('/login')
+      }
+    }
+  },[loginSetting])
 
   return (
     // 컨텍스트 값 지정 -> value{?, ?}

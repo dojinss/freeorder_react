@@ -60,10 +60,10 @@ public class SecurityConfig {
 		// 필터 설정
 		// ✅ JWT 요청 필터 설정 1️⃣
 		// ✅ JWT 인증 필터 설정 2️⃣
-		http.addFilterAt( new JwtAuthenticationFilter(authenticationManager, jwtProvider)
-						 , UsernamePasswordAuthenticationFilter.class )
-			.addFilterBefore(new JwtRequestFilter(authenticationManager, jwtProvider)
-						, UsernamePasswordAuthenticationFilter.class);
+		// http.addFilterAt( new JwtAuthenticationFilter(authenticationManager, jwtProvider)
+		// 				 , UsernamePasswordAuthenticationFilter.class )
+		// 	.addFilterBefore(new JwtRequestFilter(authenticationManager, jwtProvider)
+		// 				, UsernamePasswordAuthenticationFilter.class);
 
 
 		// 구성이 완료된 SecurityFilterChain을 반환합니다.

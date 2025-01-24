@@ -102,7 +102,7 @@ const PaymentList = ({ payList, payLoad, paymentRead, payment }) => {
               ))
             }
             {
-              payList == null ??
+              payList == null &&
               (
                 <li>
                   <span>결제 내역이 없습니다.</span>

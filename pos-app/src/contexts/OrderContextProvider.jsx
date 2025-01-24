@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 
 import SockJS from "sockjs-client";
-import Stomp from "stompjs";
+import { Stomp } from "@stomp/stompjs";
 import * as orders from '../apis/order';
 import * as Swal from '../apis/alert';
 
@@ -39,12 +39,14 @@ const OrderContextProvider = ({ children }) => {
 
     // 2. WebSocket 연결 설정
     const setupWebSocket = () => {
-      const socket = new SockJS("/wsapi/ws");
+      const token = localStorage.getItem("jwt"); // JWT 가져오기
+      const socket = new SockJS("/ws");
       const stompClient = Stomp.over(socket);
 
-      stompClient.connect({}, () => {
+      stompClient.connect({
+        Authorization: `Bearer ${token}`
+      }, () => {
         console.log("WebSocket Connected");
-
         // 주문 채널 구독
         stompClient.subscribe("/orders", (messageOutput) => {
           const newOrder = JSON.parse(messageOutput.body);
