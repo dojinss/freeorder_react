@@ -75,7 +75,7 @@
 }
 
 /* 이전/다음 버튼 */
-#prevMonth,
+/* #prevMonth,
 #nextMonth{
     width: 30px;
     height: 30px;
@@ -84,7 +84,7 @@
     background: none;
     border: none;
     cursor: pointer;
-}
+} */
 
 /* 달력 요일 부분 */
 .calendar-days {
