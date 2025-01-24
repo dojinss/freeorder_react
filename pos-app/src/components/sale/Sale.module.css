@@ -75,13 +75,22 @@
 }
 
 /* 이전/다음 버튼 */
-#prevMonth,
-#nextMonth{
+.prevMonth img,
+.nextMonth img{
     width: 30px;
     height: 30px;
     font-size: 18px;
-    color: white;
-    background: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.prevMonth,
+.nextMonth {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    background-color: transparent;
     border: none;
     cursor: pointer;
 }

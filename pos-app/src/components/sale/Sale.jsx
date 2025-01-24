@@ -19,9 +19,9 @@ const Sale = () => {
                 </div>
                 <div className={styles['calendar']}>
                     <div className={styles['calendar-header']}>
-                        <button id="prevMonth">◀</button>
+                        <button className={styles['prevMonth']}><img src="/img/back2.png"/></button>
                         <span id="monthYear"></span>
-                        <button id="nextMonth">▶</button>
+                        <button className={styles['nextMonth']}><img src="/img/next.png"/></button>
                     </div>
                     <div className={styles['calendar-days']}>
                         <div>월</div>
