@@ -109,11 +109,11 @@ public class ProductController {
             if (result > 0)
                 return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
             else {
-                log.info("공지사항/프로모션 DB에 등록 중 에러 발생...");
+                log.info("상품 DB에 등록 중 에러 발생...");
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
-            log.error("공지사항/프로모션 등록 중 에러 발생...", e);
+            log.error("상품 등록 중 에러 발생...", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -146,11 +146,11 @@ public class ProductController {
             if (result > 0) {
                 return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
             } else {
-                log.info("공지사항/프로모션 DB에 등록 중 에러 발생...");
+                log.info("상품 수정정 중 에러 발생...");
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
-            log.error("공지사항/프로모션 등록 중 에러 발생...", e);
+            log.error("상품 수정정 중 에러 발생...", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -215,7 +215,9 @@ public class ProductController {
         File uploadFile = new File(uploadPath, fileName);
         // 파일 경로 : C:/upload/UID_강아지.png
         // FileCopyUtils.copy(파일데이터, 파일객체);
-        FileCopyUtils.copy(fileData, uploadFile); // 파일 업로드
+        if (!uploadFile.exists()) {
+            FileCopyUtils.copy(fileData, uploadFile); // 파일 업로드
+        }
 
         // DB 등록
         file.setName(fileName);

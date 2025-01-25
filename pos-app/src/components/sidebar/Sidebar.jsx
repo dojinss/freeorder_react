@@ -1,13 +1,22 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { OrderContext } from '../../contexts/OrderContextProvider'
 import notificationSound from '/audio/alarm.mp3'
 
 const Sidebar = () => {
   const { orderList, notification, updateOrder, setNotification } = useContext(OrderContext)
 
+  const audioRef = useRef(null); // 오디오 재생을 위한 참조
+
+  useEffect(() => {
+    if (notification && audioRef.current) {
+      audioRef.current.play(); // 알림음 재생
+      audioRef.current.onended = () => setNotification(false); // 알림음 종료 후 상태 변경
+    }
+  }, [notification]);
+
   const handleOrder = (ordersId) => {
-    updateOrder(ordersId)
-  }
+    updateOrder(ordersId);
+  };
   return (
     <>
       <div className="sidebar">
@@ -17,11 +26,6 @@ const Sidebar = () => {
         </div>
         {notification && (
           <>
-            <Sound
-              url={notificationSound}
-              playStatus={Sound.status.PLAYING}
-              onFinishedPlaying={() => setNotification(false)}
-            />
             <div className={`sidebar-alarm`} id="order-alarm">
               <span className="material-symbols-outlined">notifications</span>
               <a href="#">새로운 주문이 있습니다.</a>
@@ -56,7 +60,7 @@ const Sidebar = () => {
           }
         </div>
       </div>
-      <audio id="alarm-sound" src="/audio/alarm.mp3" controls preload="auto"></audio>
+      <audio ref={audioRef} src={notificationSound} preload="auto" />
     </>
   )
 }

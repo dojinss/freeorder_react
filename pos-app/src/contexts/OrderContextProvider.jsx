@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-
+import Cookies from 'js-cookie'
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import * as orders from '../apis/order';
@@ -39,9 +39,9 @@ const OrderContextProvider = ({ children }) => {
 
     // 2. WebSocket 연결 설정
     const setupWebSocket = () => {
-      const token = localStorage.getItem("jwt"); // JWT 가져오기
-      const socket = new SockJS("/ws");
-      const stompClient = Stomp.over(socket);
+      const token = Cookies.get("jwt"); // JWT 가져오기
+      // const socket = new SockJS("/ws");
+      const stompClient = Stomp.client("/ws");
 
       stompClient.connect({
         Authorization: `Bearer ${token}`

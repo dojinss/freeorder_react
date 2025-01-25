@@ -1,19 +1,17 @@
+import { Stomp } from "@stomp/stompjs"
 import { ANONYMOUS, loadPaymentWidget } from "@tosspayments/payment-widget-sdk"
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as payments from '../../apis/payment'
 import { LoginContext } from '../../contexts/LoginContextProvider'
 import './css/payments.css'
-import SockJS from "sockjs-client";
-import { Stomp } from "@stomp/stompjs";
 
 const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm"
 const customerKey = ANONYMOUS
 
 const PaymentPaid = () => {
 
-  const socket = new SockJS("http://localhost:8080/ws");
-  const stompClient = Stomp.over(socket);
+  const stompClient = Stomp.client("/ws");
 
   const [paymentWidget, setPaymentWidget] = useState(null)
 
@@ -88,17 +86,19 @@ const PaymentPaid = () => {
       id: ordersId
     }
     if (stompClient) {
-      stompClient.send("/app/order.addorder/" + ordersId, {}, JSON.stringify(data));
+      stompClient.send(`/app/order.addorder/${ordersId}`, {}, JSON.stringify(data));
     }
   }
 
-  // 웹소켓
-  useEffect(() => {
-    // 2. WebSocket 연결 설정
-    const setupWebSocket = () => {
 
+  // 웹소켓 연결
+  useEffect(() => {
+    if (!ordersId) return; // ordersId가 없으면 연결하지 않음
+
+    const setupWebSocket = () => {
       stompClient.connect({}, () => {
         console.log("WebSocket Connected");
+        sendMessage(); // 연결 후 메시지 전송
       });
 
       // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
@@ -108,10 +108,9 @@ const PaymentPaid = () => {
         });
       };
     };
-    return () => {
-      setupWebSocket();
-    };
-  }, []);
+
+    return setupWebSocket();
+  }, [ordersId]); // ordersId가 변경될 때마다 WebSocket 연결
 
   return (
     <>
