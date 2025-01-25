@@ -151,8 +151,8 @@ const LoginContextProvider = ({ children }) => {
   useEffect(()=>{
 
     return()=>{
-      if (loginRef) return
-      loginRef = true
+      if (loginRef.current) return
+      loginRef.current = true
       if (!isLogin) {
         navigate('/login')
       }

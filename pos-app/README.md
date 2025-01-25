@@ -29,8 +29,11 @@ npm install @rollup/plugin-inject --save-dev
 # global
 npm i global
 
+# react-sound
+npm install react-sound
+
 # one
-npm install react-router-dom axios js-cookie sweetalert2 sweetalert2-react-content sockjs-client @rollup/plugin-inject --save-dev global @stomp/stompjs ws
+npm install react-router-dom axios js-cookie sweetalert2 sweetalert2-react-content sockjs-client @rollup/plugin-inject --save-dev global @stomp/stompjs ws react-sound
 
 ## 클래스변환 정규 표현식
 

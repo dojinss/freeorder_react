@@ -33,7 +33,7 @@ const LoginContainer = () => {
           </div>
           <div className={styles['form-floating']}>
             <label htmlFor="password">비밀번호</label>
-            <input type="current-password" className={styles['form-control']} id="password" name="pw" onChange={changePassword} defaultValue={password} placeholder="비밀번호" />
+            <input type="password" className={styles['form-control']} id="password" name="pw" onChange={changePassword} defaultValue={password} placeholder="비밀번호" autoComplete='on'/>
           </div>
           <button className={styles['login-btn']} type="submit">로그인</button>
         </form>
