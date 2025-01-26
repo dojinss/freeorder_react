@@ -8,6 +8,7 @@ import { LoginContext } from '../../contexts/LoginContextProvider';
 import styles from './Product.module.css';
 import ProductOptions from './ProductOptions';
 import ProductCart from './ProductCart';
+import { OrderContext } from '../../contexts/OrderContextProvider';
 
 const ProductList = ({ cateList, proList, onCategoryChange }) => {
   const [ModalOpen, setModalOpen] = useState(false);
@@ -16,7 +17,7 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
   const [option, setOption] = useState(null);  // 선택한 상품의 옵션
   const [totalPrice, setTotalPrice] = useState(0); // 총 가격
   const [cartList, setCartList] = useState([])    // 장바구니 목록
-
+  const {orderLoad} = useContext(OrderContext)
 
 
   const { isLogin, userInfo } = useContext(LoginContext)
@@ -160,11 +161,17 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
 
   // 결제하기
   const paymentCart = async (type) => {
-    const response = await payments.toPaid(usersId)
+    const payment = {
+      paymentMethod : type
+    }
+    const response = await payments.toPaid(usersId,payment)
     const data = response.data
     const status = response.status
+    console.log(data)
     if (status == 200) {
       Swal.alert(`결제가 완료 되었습니다.`,`${type} 결제 완료`,'success')
+      cartsLoad()
+      orderLoad()
     }
   }
 
@@ -264,6 +271,7 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
           amountIncrement={amountIncrement}
           amountDecrement={amountDecrement}
           allRemoveCart={allRemoveCart}
+          paymentCart={paymentCart}
         />
       </div>
 

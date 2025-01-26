@@ -92,8 +92,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     values ( #{id}, #{name}, #{stockCheck}, #{stock}, #{essential}, #{selectMin},#{selectMax} )
 </insert>
 <insert id="insertItem">
-    insert into option_items( options_id, name, price, seq )
-    values ( #{optionsId}, #{name}, #{price}, #{seq} )
+    insert into option_items( id, options_id, name, price, seq )
+    values ( #{id}, #{optionsId}, #{name}, #{price}, #{seq} )
 </insert>
 
 <update id="update">

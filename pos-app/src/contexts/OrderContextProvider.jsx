@@ -35,8 +35,6 @@ const OrderContextProvider = ({ children }) => {
     }
   }
   useEffect(() => {
-
-
     // 2. WebSocket 연결 설정
     const setupWebSocket = () => {
       const token = Cookies.get("jwt"); // JWT 가져오기
@@ -78,7 +76,7 @@ const OrderContextProvider = ({ children }) => {
   };
 
   return (
-    <OrderContext.Provider value={{ orderList, handleNotificationClose, notification, updateOrder, setNotification }}>
+    <OrderContext.Provider value={{ orderList, handleNotificationClose, notification, updateOrder, setNotification, orderLoad }}>
       {children}
     </OrderContext.Provider>
   )
