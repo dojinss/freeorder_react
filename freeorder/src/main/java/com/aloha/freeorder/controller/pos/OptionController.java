@@ -157,6 +157,7 @@ public class OptionController {
                 log.warn("옵션 아이템 목록이 비어있습니다.");
             } else {
                 for (OptionItem optionItem : itemList) {
+                    optionItem.setId(UUID.randomUUID().toString());
                     optionItem.setOptionsId(optionId);
 
                     // 로그 추가: 아이템 삽입 전 아이템 정보 확인
