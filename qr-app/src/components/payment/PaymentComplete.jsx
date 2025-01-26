@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './css/payments.css'
 
-const PaymentCom = () => {
+const PaymentComplete = () => {
   return (
     <div className="container" layout:fragment="content">
       <div className="allcenter">
@@ -25,4 +25,4 @@ const PaymentCom = () => {
   )
 }
 
-export default PaymentCom
+export default PaymentComplete

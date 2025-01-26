@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from 'react'
-import PaymentCom from '../../components/payment/PaymentComplete'
+import React, { useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import * as payments from '../../apis/payment'
-
+import * as payments from '../../apis/payment';
+import PaymentComplete from '../../components/Payment/PaymentComplete';
+import { Stomp } from "@stomp/stompjs"
 const CompleteContainer = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
+  // 웹소켓
+  const stompClient = Stomp.client("/ws");
 
   const paymentType = searchParams.get("paymentType")
   const ordersId = searchParams.get("orderId")
@@ -13,10 +15,6 @@ const CompleteContainer = () => {
   const amount = searchParams.get("amount")
 
   const payRef = useRef(false)
-
-  // 웹소켓 연결 POS에 실시간으로 주문정보 전송
-  const ws = useRef(WebSocket | null)
-  const WebSocketURL = `ws`
 
   const paymentSend = async () => {
     const response = await payments.confirm({
@@ -38,9 +36,41 @@ const CompleteContainer = () => {
     paymentSend()
   }, [])
   
+  // 주문 전송
+  function sendMessage() {
+    console.log("주문 전송 : " + ordersId)
+    let data = {
+      id: ordersId
+    }
+    if (stompClient) {
+      stompClient.send(`/app/order.addorder/${ordersId}`, {}, JSON.stringify(data));
+    }
+  }
+
+
+  // 웹소켓 연결
+  useEffect(() => {
+    if (!ordersId) return; // ordersId가 없으면 연결하지 않음
+
+    const setupWebSocket = () => {
+      stompClient.connect({}, () => {
+        console.log("WebSocket Connected");
+        sendMessage(); // 연결 후 메시지 전송
+      });
+
+      // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
+      return () => {
+        stompClient.disconnect(() => {
+          console.log("WebSocket Disconnected");
+        });
+      };
+    };
+
+    return setupWebSocket();
+  }, [ordersId]); // ordersId가 변경될 때마다 WebSocket 연결
 
   return (
-    <PaymentCom/>
+    <PaymentComplete/>
   )
 }
 
