@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aloha.freeorder.domain.Cart;
@@ -60,8 +61,8 @@ public class PaymentController {
         log.info("결제내역 페이지");
         log.info(" 서치 옵션 : " + paySearch);
         // 검색 값이 없을경우 기본값 세팅
-        if (paySearch == null || paySearch.getDate() == 0) {
-            paySearch = PaySearch.builder().date(7).build();
+        if (paySearch.getDate() == 0) {
+            paySearch.setDate(7);
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
@@ -73,7 +74,7 @@ public class PaymentController {
         log.info(paySearch.toString());
 
         List<Payment> payList = paymentService.listByOption(paySearch);
-        log.info("결제 리스트 : " + payList.toString());
+        // log.info("결제 리스트 : " + payList.toString());
         return new ResponseEntity<>(payList, HttpStatus.OK);
     }
 
@@ -113,7 +114,7 @@ public class PaymentController {
                     .status("COMPLETE")
                     .build();
             List<OrderItem> itemList = new ArrayList<>();
-            
+
             for (Cart cart : cartList) {
                 List<CartOption> optionList = cart.getOptionList();
                 total += cart.getPrice() * cart.getAmount();

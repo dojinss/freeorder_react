@@ -9,6 +9,8 @@ const PaymentContainer = () => {
 
   // 결제내역 목록 불러오기
   const payLoad = async (searchOptions) => {
+    console.log(`호출하기전 서치옵션`)
+    console.dir(searchOptions)
     const response = await payments.list(searchOptions)
     const data = response.data
     const status = response.status

@@ -141,11 +141,11 @@
         <if test="filter.paymentMethods != null and !filter.paymentMethods.isEmpty()">
             AND p.payment_method = #{filter.paymentMethods}
         </if>
-        <if test="filter.minPrice != null and !filter.minPrice.isEmpty()">
-            AND o.total_price >= #{filter.minPrice}
+        <if test="filter.minPrice != null and filter.minPrice > 0">
+            AND o.total_price >= ${filter.minPrice}
         </if>
-        <if test="filter.maxPrice != null and !filter.maxPrice.isEmpty()">
-            AND #{filter.maxPrice} >= o.total_price  
+        <if test="filter.maxPrice != null and filter.maxPrice > 0">
+            AND ${filter.maxPrice} >= o.total_price  
         </if>
         ORDER BY p.created_at DESC
     </select>
