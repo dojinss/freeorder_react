@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class PaySearch {
-    
+
     private int date;
     private String startDay;
     private String endDay;

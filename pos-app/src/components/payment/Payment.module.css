@@ -54,6 +54,23 @@ a:hover {
     padding-bottom: 15px;
     border-bottom: 2px solid #e9ecef;
 }
+.ls-select-part {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+.ls-select-part select {
+    width: 50%;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #ced4da;
+}
+
 .ls-input-filter {
     display: flex;
     justify-content: space-between;
