@@ -29,10 +29,6 @@ const PaymentRead = ({ payment, styles }) => {
           <span className={styles['t-price']}>{payment.order.totalPrice.toLocaleString()}원</span>
         </div>
       </div>
-      
-      <div>
-        <button type="button" className={styles['ls-re-btn']} id="re-order-btn">주문 다시 담기</button>
-      </div>
       <div className={styles['ls-detail-pay']}>
         <h4>결제 수단</h4>
         <h3 th:text="${payment.paymentMethod}">카드</h3>

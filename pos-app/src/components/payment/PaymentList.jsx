@@ -86,9 +86,7 @@ const PaymentList = ({ payList, payLoad, paymentRead, payment }) => {
                     <p>{format.formatDate(payment.paidAt)}</p>
                   </div>
                   <div className={styles['ls-detail-link']} onClick={() => paymentRead(payment.id)}>
-                    <div className={styles['ls-payment']}>
-                      <p>{payment.paymentMethod}</p>
-                    </div>
+                    <div className={styles['ls-payment']}>{payment.paymentMethod}</div>
                     <div className={styles['ls-simple']}>
                       <h3>{payment.order.totalPrice.toLocaleString()}원</h3>
                       <h5>{payment.order.title}</h5>
