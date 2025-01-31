@@ -29,38 +29,7 @@ const PaymentRead = ({ payment, styles }) => {
           <span className={styles['t-price']}>{payment.order.totalPrice.toLocaleString()}원</span>
         </div>
       </div>
-      {
-        payment.status == 'PAID' ?
-          <div className={styles['ls-cancel-price']}>
-            <h4>환불 가능 금액</h4>
-            <h4>{payment.order.totalPrice.toLocaleString()}</h4>
-          </div>
-          :
-          ''
-      }
-      {
-        payment.status == 'REFUND' ?
-          <div className={styles['ls-cancel-total']}>
-            <h4>환불된 금액</h4>
-            <h4>{payment.order.totalPrice.toLocaleString()}</h4>
-          </div>
-          :
-          ''
-      }
-      <div className={styles['ls-btns']}>
-        {
-          payment.status == 'PAID' ?
-            <button type="button" className={styles['ls-save-btn']} id="cancel-order-btn">환불</button>
-            :
-            ''
-        }
-        {
-          payment.status == 'REFUND' ?
-            <button type="button" className={styles['ls-delete-btn']} id="del-order-btn">삭제</button>
-            :
-            ''
-        }
-      </div>
+      
       <div>
         <button type="button" className={styles['ls-re-btn']} id="re-order-btn">주문 다시 담기</button>
       </div>
