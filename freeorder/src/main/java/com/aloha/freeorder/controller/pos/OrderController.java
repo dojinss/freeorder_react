@@ -33,9 +33,10 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-    
+
     /**
      * 주문 목록
+     * 
      * @return
      */
     @GetMapping()
@@ -43,14 +44,16 @@ public class OrderController {
         log.info("주문 목록 조회");
         try {
             List<Order> orderList = orderService.listByStatus("PAID");
+            log.info(orderList.toString());
             return new ResponseEntity<>(orderList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     /**
      * 주문 조회
+     * 
      * @param id
      * @return
      */
@@ -65,9 +68,10 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     /**
      * 주문 등록 처리
+     * 
      * @param order
      * @return
      */
@@ -76,20 +80,21 @@ public class OrderController {
         log.info("[POST] - /orders");
         try {
             int result = orderService.insert(order);
-            if( result > 0 )
+            if (result > 0)
                 return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-            else{
+            else {
                 log.info("주문 DB에 등록 중 에러 발생...");
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
             log.error("주문 등록 중 에러 발생", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     /**
      * 주문 수정 처리
+     * 
      * @param order
      * @return
      */
@@ -99,20 +104,21 @@ public class OrderController {
         log.info("주문 정보 : " + order);
         try {
             int result = orderService.update(order);
-            if( result > 0 )
+            if (result > 0)
                 return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-            else{
+            else {
                 log.info("주문 DB에 수정 중 에러 발생...");
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
             log.error("주문 수정 중 에러 발생", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     /**
      * 주문 삭제 처리
+     * 
      * @param id
      * @return
      */
@@ -121,11 +127,11 @@ public class OrderController {
         log.info("주문 삭제");
         try {
             int result = orderService.delete(id);
-            if( result > 0 )
+            if (result > 0)
                 return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-            else{
+            else {
                 log.info("주문 DB에 등록 중 에러 발생...");
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);    
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
             log.error("주문 삭제 중 에러 발생...", e);
@@ -134,4 +140,3 @@ public class OrderController {
     }
 
 }
-
