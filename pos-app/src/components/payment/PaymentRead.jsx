@@ -20,7 +20,7 @@ const PaymentRead = ({ payment, styles }) => {
             :
             ''
         }
-        <h4>결제 시간 : <span th:text="${#dates.format(,'yyyy-MM-dd (EE) hh:mm')}">{format.formatTotalDate(payment.paidAt)}</span></h4>
+        <h4>결제 시간 : <span>{format.formatTotalDate(payment.paidAt)}</span></h4>
       </div>
       <div className={styles['ls-total-pay']}>
         <span className={styles['order-number']}>{`주문번호 : ${payment.order.orderNumber}`}</span>
@@ -29,13 +29,9 @@ const PaymentRead = ({ payment, styles }) => {
           <span className={styles['t-price']}>{payment.order.totalPrice.toLocaleString()}원</span>
         </div>
       </div>
-      
-      <div>
-        <button type="button" className={styles['ls-re-btn']} id="re-order-btn">주문 다시 담기</button>
-      </div>
       <div className={styles['ls-detail-pay']}>
         <h4>결제 수단</h4>
-        <h3 th:text="${payment.paymentMethod}">카드</h3>
+        <h3>{payment.paymentMethod}</h3>
       </div>
       <div className={styles['ls-pay-list']}>
         <h4>결제 내역</h4>

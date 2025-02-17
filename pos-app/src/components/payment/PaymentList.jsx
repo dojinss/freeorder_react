@@ -37,12 +37,14 @@ const PaymentList = ({ payList, payLoad, paymentRead, payment }) => {
   // 검색 폼 전송
   const onSubmitSearch = (e) => {
     e.preventDefault();
-    let formData = new FormData()
-    formData.append("date", date)
-    formData.append("paymentMethods", method)
-    formData.append("minPrice", minPrice)
-    formData.append("maxPrice", maxPrice)
-    payLoad(formData)
+    const data = {
+      "date": date,
+      "paymentMethods": method,
+      "minPrice": minPrice,
+      "maxPrice": maxPrice
+    }
+    console.dir(data)
+    payLoad(data)
   }
 
   return (
@@ -56,7 +58,7 @@ const PaymentList = ({ payList, payLoad, paymentRead, payment }) => {
           </div>
           <form onSubmit={(e) => onSubmitSearch(e)}>
             <div className={styles['ls-filter-part']}>
-              <div>
+              <div className={styles['ls-select-part']}>
                 <select value={date} onChange={(e) => handleDate(e)}>
                   <option value="1">오늘</option>
                   <option value="7">1주</option>
@@ -64,9 +66,9 @@ const PaymentList = ({ payList, payLoad, paymentRead, payment }) => {
                   <option value="365">1년</option>
                 </select>
                 <select value={method} onChange={(e) => handleMethod(e)}>
-                  <option value="ALL">전체</option>
-                  <option value="CASH">현금</option>
-                  <option value="CARD">카드</option>
+                  <option value="">전체</option>
+                  <option value="현금">현금</option>
+                  <option value="카드">카드</option>
                 </select>
               </div>
               <div className={styles['ls-input-filter']}>
@@ -86,9 +88,7 @@ const PaymentList = ({ payList, payLoad, paymentRead, payment }) => {
                     <p>{format.formatDate(payment.paidAt)}</p>
                   </div>
                   <div className={styles['ls-detail-link']} onClick={() => paymentRead(payment.id)}>
-                    <div className={styles['ls-payment']}>
-                      <p>{payment.paymentMethod}</p>
-                    </div>
+                    <div className={styles['ls-payment']}>{payment.paymentMethod}</div>
                     <div className={styles['ls-simple']}>
                       <h3>{payment.order.totalPrice.toLocaleString()}원</h3>
                       <h5>{payment.order.title}</h5>
