@@ -17,7 +17,7 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
   const [option, setOption] = useState(null);  // 선택한 상품의 옵션
   const [totalPrice, setTotalPrice] = useState(0); // 총 가격
   const [cartList, setCartList] = useState([])    // 장바구니 목록
-  const {orderLoad} = useContext(OrderContext)
+  const { orderLoad } = useContext(OrderContext)
 
 
   const { isLogin, userInfo } = useContext(LoginContext)
@@ -162,14 +162,14 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
   // 결제하기
   const paymentCart = async (type) => {
     const payment = {
-      paymentMethod : type
+      paymentMethod: type
     }
-    const response = await payments.toPaid(usersId,payment)
+    const response = await payments.toPaid(usersId, payment)
     const data = response.data
     const status = response.status
     console.log(data)
     if (status == 200) {
-      Swal.alert(`결제가 완료 되었습니다.`,`${type} 결제 완료`,'success')
+      Swal.alert(`결제가 완료 되었습니다.`, `${type} 결제 완료`, 'success')
       cartsLoad()
       orderLoad()
     }
@@ -277,51 +277,55 @@ const ProductList = ({ cateList, proList, onCategoryChange }) => {
 
       {/* 세팅 모달 */}
       {/*  */}
-      <div className={ModalOpen ? `${styles.show} ${styles['modal']}` : ``}>
-        <div
-          className={styles['modal-container']}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className={styles['modal-header']}>
-            <h5>상품 설정</h5>
-            <span className={styles['close-btn']} onClick={closeModal}>
-              &times;
-            </span>
-          </div>
+      {
+        ModalOpen &&
 
-          <div className={styles['modal-section']}>
-            <h3 className={styles['section-title']}>상품</h3>
-            <div className={styles['card-container']}>
-              <a href="/products/insert" className={styles['card']}>
-                <img src="/img/상품 정보 수정.png" alt="상품 등록" />
-                <h4>상품 등록</h4>
-              </a>
-              <a href="/products/updateList" className={styles['card']}>
-                <img src="/img/상품 정보 수정.png" alt="상품 정보 수정" />
-                <h4>상품 정보 수정</h4>
-              </a>
-              <a href="/products/locate" className={styles['card']}>
-                <img src="/img/상품 배치 수정.png" alt="상품 배치 수정" />
-                <h4>상품 배치 수정</h4>
-              </a>
+        <div className={ModalOpen ? `${styles.show} ${styles['modal']}` : ``}>
+          <div
+            className={styles['modal-container']}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles['modal-header']}>
+              <h5>상품 설정</h5>
+              <span className={styles['close-btn']} onClick={closeModal}>
+                &times;
+              </span>
             </div>
-          </div>
 
-          <div className={styles['modal-section']}>
-            <h3 className={styles['section-title']}>카테고리</h3>
-            <div className={styles['card-container']}>
-              <a href="/categories" className={styles['card']}>
-                <img src="/img/카테고리 정보수정.png" alt="카테고리 정보 수정" />
-                <h4>카테고리 정보 수정</h4>
-              </a>
-              <a href="/categories/seqList" className={styles['card']}>
-                <img src="/img/카테고리 순서변경.png" alt="카테고리 순서 변경" />
-                <h4>카테고리 순서 변경</h4>
-              </a>
+            <div className={styles['modal-section']}>
+              <h3 className={styles['section-title']}>상품</h3>
+              <div className={styles['card-container']}>
+                <a href="/products/insert" className={styles['card']}>
+                  <img src="/img/상품 정보 수정.png" alt="상품 등록" />
+                  <h4>상품 등록</h4>
+                </a>
+                <a href="/products/updateList" className={styles['card']}>
+                  <img src="/img/상품 정보 수정.png" alt="상품 정보 수정" />
+                  <h4>상품 정보 수정</h4>
+                </a>
+                <a href="/products/locate" className={styles['card']}>
+                  <img src="/img/상품 배치 수정.png" alt="상품 배치 수정" />
+                  <h4>상품 배치 수정</h4>
+                </a>
+              </div>
+            </div>
+
+            <div className={styles['modal-section']}>
+              <h3 className={styles['section-title']}>카테고리</h3>
+              <div className={styles['card-container']}>
+                <a href="/categories" className={styles['card']}>
+                  <img src="/img/카테고리 정보수정.png" alt="카테고리 정보 수정" />
+                  <h4>카테고리 정보 수정</h4>
+                </a>
+                <a href="/categories/seqList" className={styles['card']}>
+                  <img src="/img/카테고리 순서변경.png" alt="카테고리 순서 변경" />
+                  <h4>카테고리 순서 변경</h4>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
 
       {/* 옵션 아이템 선택 모달 */}
       {optModalOpen && selectedProduct && (
