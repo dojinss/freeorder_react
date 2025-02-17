@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS `USER_AUTH`;
+drop table if exists `user_auth`;
 
-CREATE TABLE `USER_AUTH` (
-	`ID`		CHAR(50)  PRIMARY KEY     NOT NULL,
-	`USERNAME`	VARCHAR(100)	NOT NULL,
-	`AUTH`		VARCHAR(100)	NOT NULL
+create table `user_auth` (
+    `no` int primary key AUTO_INCREMENT,
+    `username` varchar(100) not null,
+    `auth` varchar(100) not null
 );

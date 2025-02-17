@@ -26,7 +26,6 @@ public class Order {
     private Date orderedAt;
     private Date createdAt;
     private Date updatedAt;
-
     private List<OrderItem> itemList;
 
 }

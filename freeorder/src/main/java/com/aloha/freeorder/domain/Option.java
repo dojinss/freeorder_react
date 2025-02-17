@@ -17,6 +17,5 @@ public class Option {
     private int selectMax;
     private Date createdAt;
     private Date updatedAt;
-
     private List<OptionItem> itemList;
 }

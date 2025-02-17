@@ -30,7 +30,6 @@ import com.aloha.freeorder.service.CartService;
 import com.aloha.freeorder.service.ProductService;
 import com.aloha.freeorder.util.OptionComparator;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -74,9 +73,9 @@ public class QrCartController {
     }
 
     @GetMapping("/option/{id}")
-    public ResponseEntity<?>  option(@PathVariable("id") String id, Model model) throws Exception {
+    public ResponseEntity<?> option(@PathVariable("id") String id, Model model) throws Exception {
         log.info("옵션 리스트 출력!!");
-        Map<String, Object > response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         // 장바구니 정보 조회
         Cart cart = cartService.select(id);
         response.put("cart", cart);
@@ -115,7 +114,7 @@ public class QrCartController {
         try {
             log.info(product.toString());
             Product infoProduct = productService.select(product.getId());
-            // log.info("infoProdsuct : " + infoProduct);
+            log.info("infoProdsuct : " + infoProduct);
 
             String id = UUID.randomUUID().toString();
             Cart cart = new Cart();
@@ -192,7 +191,7 @@ public class QrCartController {
         // 장바구니 옵션 설정
         try {
             List<CartOption> optionList = cart.getOptionList();
-            cartService.allDeleteOptionByUserId(usersId);
+            cartService.deleteOption(cart.getId());
             log.info("옵션 목록 : " + optionList);
             if (optionList != null) {
                 for (CartOption cartOption : optionList) {

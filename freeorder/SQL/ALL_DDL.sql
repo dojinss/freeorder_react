@@ -5,6 +5,7 @@ create table `users` (
     `username` varchar(100) not null,
     `password` varchar(100) not null,
     `name` varchar(100) not null,
+    `email` varchar(100) null,
     `created_at` timestamp not null default current_timestamp,
     `updated_at` timestamp not null default current_timestamp,
     `enabled` int not null default 1
@@ -13,7 +14,7 @@ create table `users` (
 drop table if exists `user_auth`;
 
 create table `user_auth` (
-    `id` char(50) primary key not null,
+    `no` int primary key AUTO_INCREMENT,
     `username` varchar(100) not null,
     `auth` varchar(100) not null
 );

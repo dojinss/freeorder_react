@@ -22,6 +22,5 @@ public class Cart {
     private int price;
     private Date createdAt;
     private Date updatedAt;
-
     private List<CartOption> optionList;
 }

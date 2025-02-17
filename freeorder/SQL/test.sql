@@ -218,3 +218,5 @@ LEFT OUTER JOIN order_items oi
     ON o.id = oi.orders_id
 LEFT OUTER JOIN order_options op
     ON oi.id = op.order_items_id;
+
+

@@ -24,6 +24,5 @@ public class OrderItem {
     private int amount;
     private Date createdAt;
     private Date updatedAt;
-
     private List<OrderOption> optionList;
 }

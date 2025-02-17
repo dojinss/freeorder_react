@@ -38,18 +38,18 @@ VALUES (
 -- * 권한 : ROLE_USER
 INSERT INTO
     `user_auth` (id, username, auth)
-VALUES (UUID(), 'user', 'ROLE_USER');
+VALUES ( 'user', 'ROLE_USER');
 
 INSERT INTO
     `user_auth` (id, username, auth)
-VALUES (UUID(), 'test', 'ROLE_USER');
+VALUES ( 'test', 'ROLE_USER');
 
 -- 관리자
 -- * 권한 : ROLE_USER, ROLE_ADMIN
 INSERT INTO
     `user_auth` (id, username, auth)
-VALUES (UUID(), 'admin', 'ROLE_USER');
+VALUES ( 'admin', 'ROLE_USER');
 
 INSERT INTO
     `user_auth` (id, username, auth)
-VALUES (UUID(), 'admin', 'ROLE_ADMIN');
+VALUES ( 'admin', 'ROLE_ADMIN');

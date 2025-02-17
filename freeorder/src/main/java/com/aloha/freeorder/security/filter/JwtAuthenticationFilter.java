@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    
+
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
 
@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authenticationManager = authenticationManager;
         this.jwtProvider = jwtProvider;
         // 필터 URL 경로 설정 : /login
-        setFilterProcessesUrl( SecurityConstants.LOGIN_URL );
+        setFilterProcessesUrl(SecurityConstants.LOGIN_URL);
     }
 
     /**
@@ -44,28 +44,41 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
-        
-        // 요청 메시지에서 아이디, 비밀번호 추출
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
 
-        log.info("[filter] username : " + username);
-        log.info("[filter] password : " + password);
+        // [GET] 요청 메시지에서 아이디, 비밀번호 추출
+        // String username = request.getParameter("username");
+        // String password = request.getParameter("password");
+
+        String username;
+        String password;
+
+        // [POST] 요청 메시지에서 아이디, 비밀번호 추출
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Users loginRequest = objectMapper.readValue(request.getInputStream(), Users.class);
+            username = loginRequest.getUsername();
+            password = loginRequest.getPassword();
+            // log.info("[filter] username : " + username);
+            // log.info("[filter] password : " + password);
+        } catch (Exception e) {
+            log.error("로그인시 인증에러", e);
+            throw new RuntimeException(e);
+        }
 
         // 인증토큰 객체 생성
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
-        
+
         // 인증 (로그인)
         authentication = authenticationManager.authenticate(authentication);
 
-        log.info("authenticationManager : " + authenticationManager );
-        log.info("authentication : " + authentication );
-        log.info("인증 여부 isAuthenticated() : " + authentication.isAuthenticated() );
+        log.info("authenticationManager : " + authenticationManager);
+        log.info("authentication : " + authentication);
+        log.info("인증 여부 isAuthenticated() : " + authentication.isAuthenticated());
 
         // 인증 실패
-        if( !authentication.isAuthenticated() ) {
+        if (!authentication.isAuthenticated()) {
             log.info("인증 실패 : 아이디 또는 비밀번호가 일치하지 않습니다.");
-            response.setStatus(401);    // 401 Unauthorized : 인증 실패
+            response.setStatus(401); // 401 Unauthorized : 인증 실패
         }
 
         // 인증 성공
@@ -78,8 +91,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      * 
      * ➡ 💍 JWT
      * : 로그인 인증에 성공, JWT 토큰 생성
-     *    Authorizaion 응답헤더에 jwt 토큰을 담아 응답
-     *   { Authorizaion : Bearer + {jwt} } 
+     * Authorizaion 응답헤더에 jwt 토큰을 담아 응답
+     * { Authorizaion : Bearer + {jwt} }
      */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
@@ -92,28 +105,25 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String id = user.getId();
         String username = user.getUsername();
         List<String> roles = customUser.getAuthorities()
-                                    .stream()
-                                    .map( GrantedAuthority::getAuthority )
-                                    .collect( Collectors.toList() )
-                                    ;
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
 
         // 💍 JWT 생성
         String jwt = jwtProvider.createToken(id, username, roles);
-        
+
         // Authorization 응답 헤더 세팅
         response.addHeader("Authorization", SecurityConstants.TOKEN_PREFIX + jwt);
         response.setStatus(200);
 
         // 유저정보 세팅
         ObjectMapper objectMapper = new ObjectMapper();
-        String jsonString = objectMapper.writeValueAsString(user); 
+        String jsonString = objectMapper.writeValueAsString(user);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter printWriter = response.getWriter();
         printWriter.write(jsonString);
         printWriter.flush();
     }
-
-        
 
 }

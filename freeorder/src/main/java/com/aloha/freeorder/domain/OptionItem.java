@@ -14,7 +14,6 @@ public class OptionItem {
     private int seq;
     private Date createdAt;
     private Date updatedAt;
-
     private boolean checked;
     
 }
