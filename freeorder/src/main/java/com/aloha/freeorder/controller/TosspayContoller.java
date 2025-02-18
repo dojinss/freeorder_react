@@ -20,6 +20,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/payments")
+@CrossOrigin("*")
 public class TosspayContoller {
 
     @Autowired
@@ -54,9 +56,8 @@ public class TosspayContoller {
 
     @GetMapping("/{id}/{orderType}")
     public ResponseEntity<?> payment(
-        @PathVariable("id") String usersId,
-        @PathVariable("orderType") String orderType
-    ) throws Exception {
+            @PathVariable("id") String usersId,
+            @PathVariable("orderType") String orderType) throws Exception {
         log.info("결제 창 출력!!");
         log.info("유저 아이디 : " + usersId);
         // 장바구니 정보 불러오기
@@ -78,10 +79,12 @@ public class TosspayContoller {
 
         for (Cart cart : cartList) {
             List<CartOption> optionList = cart.getOptionList();
-            total += cart.getPrice() * cart.getAmount();
+            int optionTotal = 0;
+
             for (CartOption cartOption : optionList) {
-                total += cartOption.getPrice();
+                optionTotal += cartOption.getPrice();
             }
+            total += (cart.getPrice() + optionTotal) * cart.getAmount();
             if (title.equals("")) {
                 title = cart.getProductName();
             }
@@ -142,14 +145,13 @@ public class TosspayContoller {
         response.put("title", title);
         response.put("ordersId", ordersId);
         response.put("total", total.toString());
-        
-        return new ResponseEntity<>( response, HttpStatus.OK);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    
     @PostMapping("/confirm")
     public ResponseEntity<JSONObject> confirmPayment(
-    @RequestBody String jsonBody) throws Exception {
+            @RequestBody String jsonBody) throws Exception {
         log.info("결제성공 후 프로그램 DB에 연동 시도...");
         log.info(jsonBody);
         JSONParser parser = new JSONParser();
@@ -160,7 +162,7 @@ public class TosspayContoller {
             // 클라이언트에서 받은 JSON 요청 바디입니다.
             JSONObject requestData = (JSONObject) parser.parse(jsonBody);
             paymentKey = (String) requestData.get("paymentKey");
-            ordersId = (String) requestData.get("ordersId");
+            ordersId = (String) requestData.get("orderId");
             amount = (String) requestData.get("amount");
         } catch (ParseException e) {
             throw new RuntimeException(e);
@@ -246,12 +248,14 @@ public class TosspayContoller {
         // CancellationService.cancelPayment(order.getId(), paymentKey, reason);
         // log.info(order.toString());
         // HttpRequest request = HttpRequest.newBuilder()
-        //         .uri(URI.create("https://api.tosspayments.com/v1/payments/orders/a4CWyWY5m89PNh7xJwhk1"))
-        //         .header("Authorization", "Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg==")
-        //         .header("Content-Type", "application/json")
-        //         .method("POST", HttpRequest.BodyPublishers.noBody())
-        //         .build();
-        // HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        // .uri(URI.create("https://api.tosspayments.com/v1/payments/orders/a4CWyWY5m89PNh7xJwhk1"))
+        // .header("Authorization", "Basic
+        // dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg==")
+        // .header("Content-Type", "application/json")
+        // .method("POST", HttpRequest.BodyPublishers.noBody())
+        // .build();
+        // HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+        // HttpResponse.BodyHandlers.ofString());
         // System.out.println(response.body());
         return ResponseEntity.ok().body("cancel success");
     }
