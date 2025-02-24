@@ -6,8 +6,12 @@ const Sidebar = () => {
   const { orderList, notification, updateOrder, setNotification } = useContext(OrderContext)
 
   const audioRef = useRef(null); // 오디오 재생을 위한 참조
+  const listRef = useRef(null);
 
   useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
     if (notification && audioRef.current) {
       audioRef.current.play(); // 알림음 재생
       audioRef.current.onended = () => setNotification(false); // 알림음 종료 후 상태 변경
@@ -32,7 +36,9 @@ const Sidebar = () => {
             </div>
           </>
         )}
-        <div id="side-order-list">
+        <div id="side-order-list"
+          ref={listRef}
+        >
           {
             orderList.map((order) => (
               <div key={order.id} className={`order-list sidebar-list ${order.status == 'COMPLETE' ? "done" : ""}`}>

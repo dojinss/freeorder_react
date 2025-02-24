@@ -3,7 +3,7 @@ import { LoginContext } from '../contexts/LoginContextProvider'
 import styles from '../login.module.css'
 const LoginContainer = () => {
 
-  const {login} = useContext(LoginContext)
+  const { login } = useContext(LoginContext)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -18,7 +18,11 @@ const LoginContainer = () => {
   const onLogin = (e) => {
     e.preventDefault()
     console.log(`로그인 시도...`)
-    login(username, password)
+    let data = {
+      'username': username,
+      'password': password,
+    }
+    login(data)
   }
   return (
     <div className={styles['container']}>
@@ -33,7 +37,7 @@ const LoginContainer = () => {
           </div>
           <div className={styles['form-floating']}>
             <label htmlFor="password">비밀번호</label>
-            <input type="password" className={styles['form-control']} id="password" name="pw" onChange={changePassword} defaultValue={password} placeholder="비밀번호" autoComplete='on'/>
+            <input type="password" className={styles['form-control']} id="password" name="pw" onChange={changePassword} defaultValue={password} placeholder="비밀번호" autoComplete='on' />
           </div>
           <button className={styles['login-btn']} type="submit">로그인</button>
         </form>
