@@ -23,13 +23,13 @@ const LoginContextProvider = ({ children }) => {
   const navigate = useNavigate()
 
   // 로그인 함수
-  const login = async (username, password) => {
-    console.log(`username : ${username}`)
-    console.log(`password : ${password}`)
+  const login = async (loginData) => {
+    console.log(`username : ${loginData.username}`)
+    console.log(`password : ${loginData.password}`)
 
     try {
 
-      const response = await auth.login(username, password)
+      const response = await auth.login(loginData)
       const data = response.data
       const status = response.status
       const headers = response.headers
@@ -148,16 +148,16 @@ const LoginContextProvider = ({ children }) => {
     autoLogin()
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    return()=>{
+    return () => {
       if (loginRef.current) return
       loginRef.current = true
       if (!isLogin) {
         navigate('/login')
       }
     }
-  },[loginSetting])
+  }, [loginSetting])
 
   return (
     // 컨텍스트 값 지정 -> value{?, ?}
