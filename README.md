@@ -39,10 +39,10 @@
 ## 🛠️ **기술 스택**  
 
 - **Backend**:  
-  Java, Spring Boot, Spring MVC, Spring Security, RESTful API
+  Java, Spring Boot, Spring Security, RESTful API
 
 - **Frontend**:  
-  HTML, CSS, JavaScript, React
+  React
 
 - **Database**:  
   MySQL  
@@ -50,17 +50,14 @@
 - **Real-Time Communication**:  
   WebSocket  
 
-- **Cloud Deployment**:  
-  AWS  
-
 - **Version Control**:  
   Git, GitHub  
 
 ---
 
-## 🎥 **프로젝트 발표 영상**  
+## 🎥 **프로젝트 발표 자료**  
 
-[**발표 영상 링크**](https://www.youtube.com/watch?v=u6YvGbuR9Qc&list=PL4C2AmBC9jOZZEOwZ67P_Nb_WoQ1JpZ6G&index=5)  
+[**발표 자료 링크**]([https://www.youtube.com/watch?v=u6YvGbuR9Qc&list=PL4C2AmBC9jOZZEOwZ67P_Nb_WoQ1JpZ6G&index=5](https://docs.google.com/presentation/d/1h7CND6jW9pEUTXN6ElS1NdPcLr1v_nqI/edit#slide=id.p1))  
 
 ---
 
