@@ -48,7 +48,7 @@
 
 ## 🎥 **프로젝트 발표 자료**  
 
-[**발표 자료 링크**]([https://www.youtube.com/watch?v=u6YvGbuR9Qc&list=PL4C2AmBC9jOZZEOwZ67P_Nb_WoQ1JpZ6G&index=5](https://docs.google.com/presentation/d/1h7CND6jW9pEUTXN6ElS1NdPcLr1v_nqI/edit#slide=id.p1))  
+[**발표 자료 링크**](https://docs.google.com/presentation/d/1h7CND6jW9pEUTXN6ElS1NdPcLr1v_nqI/edit#slide=id.p1)
 
 ---
 
