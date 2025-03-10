@@ -38,21 +38,12 @@
 
 ## 🛠️ **기술 스택**  
 
-- **Backend**:  
-  Java, Spring Boot, Spring Security, RESTful API
-
-- **Frontend**:  
-  React
-
-- **Database**:  
-  MySQL  
-
-- **Real-Time Communication**:  
-  WebSocket  
-
-- **Version Control**:  
-  Git, GitHub  
-
+- **백엔드**: Java, Spring Boot, Spring Security, RESTful API
+- **프론트엔드**: React
+- **데이터베이스**: MySQL  
+- **실시간커뮤니케이션**: WebSocket    
+- **개발 도구:** VS Code  
+- **협업 도구:** Notion, Figma, GitHub
 ---
 
 ## 🎥 **프로젝트 발표 자료**  
@@ -167,22 +158,11 @@ QR 코드를 활용한 주문 및 관리 시스템의 세부 기능입니다.
 
 ## 📅 **수행 절차 및 방법**  
 
-### **1. 간트 차트**  
-![간트차트](https://github.com/user-attachments/assets/bc00ec8a-cff4-4c14-9f5f-827c017d5635)
 
-
-### **2. 수행 절차**  
-1. 요구사항 분석  
-2. 시스템 설계 (ERD, 테이블 정의)  
-3. 개발 및 테스트 (Backend, Frontend 분리)  
-4. 클라우드 배포 및 시연
-
-![수행절차](https://github.com/user-attachments/assets/5f11dd99-91e3-447c-b124-b0907729888f)
 
 
 ### **3. 개발 환경 및 장비**  
-- **개발 툴:** VS Code  
-- **협업 도구:** Notion, Figma, GitHub
+
 
 ---
 
